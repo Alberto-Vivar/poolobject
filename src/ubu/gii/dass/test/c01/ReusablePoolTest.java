@@ -5,11 +5,15 @@ package ubu.gii.dass.test.c01;
 
 import static org.junit.Assert.*;
 
+import java.io.NotActiveException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ubu.gii.dass.c01.DuplicatedInstanceException;
 import ubu.gii.dass.c01.NotFreeInstanceException;
+import ubu.gii.dass.c01.Reusable;
 import ubu.gii.dass.c01.ReusablePool;
 
 /**
@@ -59,7 +63,22 @@ public class ReusablePoolTest {
 	 */
 	@Test
 	public void testReleaseReusable() {
-		fail("Not yet implemented");
+		Reusable reusable = new Reusable();
+		ReusablePool rp = ReusablePool.getInstance();
+		try{
+			while(true){
+				rp.acquireReusable();
+			}
+		}catch(NotFreeInstanceException e){
+			try{
+				rp.releaseReusable(reusable);
+				assertEquals(rp.acquireReusable(),reusable);
+			}catch(DuplicatedInstanceException e2){
+				fail("La piscina debería estar vacía");
+			} catch (NotFreeInstanceException e1) {
+				fail("No puedo recoger un objeto que acabo de meter");
+			}
+		}
 	}
 
 }
