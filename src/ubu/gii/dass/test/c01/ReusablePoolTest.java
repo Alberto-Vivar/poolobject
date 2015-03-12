@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ubu.gii.dass.c01.Client;
 import ubu.gii.dass.c01.DuplicatedInstanceException;
 import ubu.gii.dass.c01.NotFreeInstanceException;
 import ubu.gii.dass.c01.Reusable;
@@ -78,6 +79,19 @@ public class ReusablePoolTest {
 			} catch (NotFreeInstanceException e1) {
 				fail("No puedo recoger un objeto que acabo de meter");
 			}
+		}
+	}
+	
+	@Test
+	public void testCliente(){
+		Client cliente=new Client();
+		assertTrue(cliente.getClass().equals(Client.class));
+		try{
+			Client.main(null);
+		}catch(NotFreeInstanceException e){
+			fail("El main no se lanza adecuadamente");
+		} catch (DuplicatedInstanceException e) {
+			fail(e.getMessage());
 		}
 	}
 
