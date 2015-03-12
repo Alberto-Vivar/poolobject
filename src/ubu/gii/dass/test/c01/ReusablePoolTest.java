@@ -79,6 +79,12 @@ public class ReusablePoolTest {
 			} catch (NotFreeInstanceException e1) {
 				fail("No puedo recoger un objeto que acabo de meter");
 			}
+			try{
+				rp.releaseReusable(reusable);
+				rp.releaseReusable(reusable);
+			}catch(DuplicatedInstanceException e2){
+				assertTrue(true);
+			}
 		}
 	}
 	
